@@ -22,7 +22,9 @@ import androidx.activity.compose.setContent
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -31,6 +33,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.paddingFromBaseline
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
@@ -99,7 +103,7 @@ fun AlignYourBodyElement(
         modifier = modifier
     ) {
         Image(
-            painter = painterResource(id = R.drawable.ab1_inversions),
+            painter = painterResource(drawable),
             contentDescription = null,
             contentScale = ContentScale.Crop, // There are several options
             modifier = Modifier
@@ -107,7 +111,7 @@ fun AlignYourBodyElement(
                 .clip(CircleShape)
         )
         Text(
-            text = stringResource(id = R.string.ab1_inversions),
+            text = stringResource(text),
             modifier = Modifier
                 .paddingFromBaseline(top = 24.dp, bottom = 8.dp),
             style = MaterialTheme.typography.bodyMedium
@@ -156,7 +160,16 @@ fun FavoriteCollectionCard(
 fun AlignYourBodyRow(
     modifier: Modifier = Modifier
 ) {
-    // Implement composable here
+    LazyRow( // only renders the elements that are shown on screen
+        horizontalArrangement = Arrangement.spacedBy(8.dp), // Arrangement.SpaceAround, SpaceBetween ....
+        contentPadding = PaddingValues(horizontal = 16.dp),
+        modifier = modifier
+    ) {
+        // not composable, use Lazy list DSL
+        items(alignYourBodyData) { item ->
+            AlignYourBodyElement(drawable = item.drawable, text = item.text)
+        }
+    }
 }
 
 // Step: Favorite collections grid - LazyGrid
